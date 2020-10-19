@@ -6,8 +6,6 @@ MAINTAINER Dustin Lyons <dlyons14@gmail.com>
 ENV OUT_PORT=3000
 ENV IN_PORT=3010
 ENV CONTROL_PORT=4000
-# TODO: Use docker volumes to symlink in local directory, for development
-ENV SCENARIOS_ZIP_URL=""
 ENV BOT_SERVER_PORT=5000
 ENV STENO_VER=1.2.0
 
@@ -29,11 +27,6 @@ RUN mkdir -p /steno  && \
 
 RUN echo "Installed steno."
 RUN steno --version
-
-RUN cd /steno && \
-    curl -o scenarios.zip -fsSL --compressed $SCENARIOS_ZIP_URL && \
-    unzip scenarios.zip && \
-    rm -f scenarios.zip
 
 CMD cd /steno && \
     steno --replay --app localhost:$BOT_SERVER_PORT --out-port $OUT_PORT --in-port $IN_PORT --slack-replace-tokens
